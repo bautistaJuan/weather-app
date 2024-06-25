@@ -9,7 +9,7 @@ export default function Inputs() {
           <input
             placeholder="buscar por ciudad o país"
             type="text"
-            autoFocus="true"
+            autoFocus={true}
             className="text-gray-500 text-xl font-light p-2 w-full shadow-xl capitalize focus:outline-none placeholder:lowercase"
           />
           <BiSearch
