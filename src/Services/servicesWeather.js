@@ -20,8 +20,11 @@ const iconUrlFromCode = icon =>
 const formatToLocalTime = (
   secs,
   offset,
-  format = "cccc, dd LLL yyyy' | Local time:'hh:mm"
+  format = "cccc, dd LLL yyyy' | Horario Local:' hh:mm a"
 ) => DateTime.fromSeconds(secs + offset, { zone: "utc" }).toFormat(format);
+
+// Función para convertir Kelvin a Celsius y redondear a un decimal
+const kelvinToCelsius = kelvin => (kelvin - 273.15).toFixed(1);
 
 // Esta funcion saca la data necesaria y la formatea para retornarla a la funcion principal.
 const formatCurrent = data => {
@@ -40,10 +43,10 @@ const formatCurrent = data => {
   const formattedLocalTime = formatToLocalTime(dt, timezone);
 
   return {
-    temp,
-    feels_like,
-    temp_min,
-    temp_max,
+    temp: kelvinToCelsius(temp),
+    feels_like: kelvinToCelsius(feels_like),
+    temp_min: kelvinToCelsius(temp_min),
+    temp_max: kelvinToCelsius(temp_max),
     humidity,
     name,
     country,
@@ -60,7 +63,30 @@ const formatCurrent = data => {
   };
 };
 
-const formatForecastWather = (secs, offset, data) => {};
+const formatForecastWather = (secs, offset, data) => {
+  // hourly
+  const hourly = data
+    .filter(f => f.dt > secs)
+    .slice(0, 5)
+    .map(f => ({
+      temp: kelvinToCelsius(f.main.temp),
+      title: formatToLocalTime(f.dt, offset, "hh:mm a"),
+      icon: iconUrlFromCode(f.weather[0].icon),
+      date: f.dt_txt,
+    }));
+
+  // daily
+  const daily = data
+    .filter(f => f.dt_txt.slice(-8) === "00:00:00")
+    .map(f => ({
+      temp: kelvinToCelsius(f.main.temp),
+      title: formatToLocalTime(f.dt, offset, "ccc"),
+      icon: iconUrlFromCode(f.weather[0].icon),
+      date: f.dt_txt,
+    }));
+
+  return { hourly, daily };
+};
 
 // Esta es la funcion que se encarga de pasar toda la data formateada(embellesido)
 const getFormattedWeatherData = async searchParams => {
@@ -77,7 +103,7 @@ const getFormattedWeatherData = async searchParams => {
     units: searchParams.units,
   }).then(d => formatForecastWather(dt, timezone, d.list)); //Para un endpoint diferente.
   // Retorna lo que devuelve la función formatCurrent
-  return { ...formateddCurrenWeather };
+  return { ...formateddCurrenWeather, ...formattedForecastWeather };
 };
 
 export default getFormattedWeatherData;

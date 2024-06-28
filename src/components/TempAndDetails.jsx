@@ -6,7 +6,21 @@ import { GiSunrise } from "react-icons/gi";
 import { GiSunset } from "react-icons/gi";
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
 
-export default function TempAndDetails() {
+export default function TempAndDetails({
+  // eslint-disable-next-line react/prop-types
+  weather: {
+    details,
+    icon,
+    temp,
+    temp_min,
+    temp_max,
+    sunrise,
+    sunset,
+    speed,
+    humidity,
+    feels_like,
+  },
+}) {
   const verticalItems = [
     {
       id: 1,
@@ -57,7 +71,7 @@ export default function TempAndDetails() {
   return (
     <div>
       <div className="flex items-center justify-center py-6 text-xl text-cyan-300">
-        <p>Soleado</p>
+        <p>{details} </p>
       </div>
 
       <div className="flex flex-row items-center justify-between py-3">
@@ -66,7 +80,7 @@ export default function TempAndDetails() {
           alt="Weather Icon"
           className="w-20"
         />
-        <p className="text-5xl">22°</p>
+        <p className="text-5xl">{`${temp}°`}</p>
         <div className="flex flex-col space-y-3 items-start">
           {verticalItems.map(({ Icon, name, id, value }) => {
             return (
