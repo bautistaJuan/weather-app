@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { FaThermometerEmpty } from "react-icons/fa";
 import { BiSolidDropletHalf } from "react-icons/bi";
@@ -26,19 +27,19 @@ export default function TempAndDetails({
       id: 1,
       name: "Sensación Térmica",
       Icon: FaThermometerEmpty,
-      value: "22°",
+      value: feels_like,
     },
     {
       id: 2,
       name: "Humedad",
       Icon: BiSolidDropletHalf,
-      value: "70%",
+      value: `${humidity}%`,
     },
     {
       id: 3,
       name: "Viento",
       Icon: FiWind,
-      value: "11 km/h",
+      value: `${speed} km/h`,
     },
   ];
   const horizontalItems = [
@@ -46,27 +47,46 @@ export default function TempAndDetails({
       id: 1,
       name: "Amanecer",
       Icon: GiSunrise,
-      value: "7:00 AM",
+      value: sunrise,
     },
     {
       id: 2,
       name: "Atardecer",
       Icon: GiSunset,
-      value: "18:00 PM",
+      value: sunset,
     },
     {
       id: 3,
       name: "Máxima",
       Icon: MdKeyboardArrowUp,
-      value: "28°",
+      value: temp_max,
     },
     {
       id: 4,
       name: "Minima",
       Icon: MdKeyboardArrowDown,
-      value: "10°",
+      value: temp_min,
     },
   ];
+  const ItemsArea = () => {
+    return (
+      <>
+        <div className="flex flex-col space-y-3 items-start">
+          {verticalItems.map(({ Icon, name, id, value }) => {
+            return (
+              <div
+                key={id}
+                className="flex font-light text-sm items-center justify-center"
+              >
+                <Icon size={18} className="mr-1" />
+                {name}: <span className="font-medium ml-1">{value}</span>
+              </div>
+            );
+          })}
+        </div>
+      </>
+    );
+  };
 
   return (
     <div>
@@ -75,27 +95,9 @@ export default function TempAndDetails({
       </div>
 
       <div className="flex flex-row items-center justify-between py-3">
-        <img
-          src="http://openweathermap.org/img/wn/01d@2x.png"
-          alt="Weather Icon"
-          className="w-20"
-        />
+        <img src={icon} alt="Weather Icon" className="w-20" />
         <p className="text-5xl">{`${temp}°`}</p>
-        <div className="flex flex-col space-y-3 items-start">
-          {verticalItems.map(({ Icon, name, id, value }) => {
-            return (
-              <>
-                <div
-                  key={id}
-                  className="flex font-light text-sm items-center justify-center"
-                >
-                  <Icon size={18} className="mr-1" />
-                  {name}: <span className="font-medium ml-1">{value}</span>
-                </div>
-              </>
-            );
-          })}
-        </div>
+        <ItemsArea />
       </div>
       <div className="flex flex-row items-center justify-center space-x-10 text-sm py-3">
         {horizontalItems.map(({ Icon, name, id, value }) => (

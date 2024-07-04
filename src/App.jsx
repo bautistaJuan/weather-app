@@ -7,7 +7,7 @@ import TimeAndLocation from "./components/TimeAndLocation";
 import TopButtons from "./components/TopButtons";
 
 export default function App() {
-  const [query, setQuery] = useState({ q: "argentina" });
+  const [query, setQuery] = useState({ q: "buenos aires" });
   const [units, setUnits] = useState("metrics");
   const [weather, setWeather] = useState(null);
 
@@ -23,14 +23,14 @@ export default function App() {
   return (
     <>
       <div className="mx-auto max-w-screen-lg text-white mt-4 py-6 px-32 bg-gradient-to-br shadow-xl shadow-gray-400 from-cyan-600 to-blue-700">
-        <TopButtons />
+        <TopButtons setQuery={setQuery} />
         <Inputs />
         {weather && (
           <>
             <TimeAndLocation weather={weather} />
             <TempAndDetails weather={weather} />
-            <Forecast />
-            <Forecast />
+            <Forecast title="PREVISIÓN DE 5 HORAS" data={weather.hourly} />
+            <Forecast title="PREVISIÓN DIARIA" data={weather.daily} />
           </>
         )}
       </div>

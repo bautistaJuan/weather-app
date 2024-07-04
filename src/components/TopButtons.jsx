@@ -1,4 +1,5 @@
-export default function TopButtons() {
+// eslint-disable-next-line react/prop-types
+export default function TopButtons({ setQuery }) {
   const cities = [
     {
       id: 1,
@@ -28,6 +29,7 @@ export default function TopButtons() {
         <button
           key={c.id}
           className=" text-lg font-medium hover:bg-gray-700/20 px-3 py-2 rounded-md transition ease-in "
+          onClick={() => setQuery({ q: cities.name })}
         >
           {c.name}
         </button>

@@ -8,7 +8,10 @@ const BASE_URL = "https://api.openweathermap.org/data/2.5/";
 const getWeatherData = (infoType, searchParams) => {
   // infoType: Tipo de endpoint (Weather, Forecast)
   const url = new URL(BASE_URL + infoType);
-  url.search = new URLSearchParams({ ...searchParams, appid: API_KEY });
+  url.search = new URLSearchParams({
+    ...searchParams,
+    appid: API_KEY,
+  });
 
   return fetch(url).then(res => res.json());
 };
@@ -21,13 +24,17 @@ const formatToLocalTime = (
   secs,
   offset,
   format = "cccc, dd LLL yyyy' | Horario Local:' hh:mm a"
-) => DateTime.fromSeconds(secs + offset, { zone: "utc" }).toFormat(format);
+) =>
+  DateTime.fromSeconds(secs + offset, { zone: "utc" })
+    .setLocale("es")
+    .toFormat(format);
 
 // Función para convertir Kelvin a Celsius y redondear a un decimal
-const kelvinToCelsius = kelvin => (kelvin - 273.15).toFixed(1);
+const kelvinToCelsius = kelvin => (kelvin - 273.15).toFixed();
 
 // Esta funcion saca la data necesaria y la formatea para retornarla a la funcion principal.
 const formatCurrent = data => {
+  console.log(data);
   const {
     coord: { lat, lon },
     main: { temp, feels_like, temp_min, temp_max, humidity },
@@ -39,7 +46,7 @@ const formatCurrent = data => {
     timezone,
   } = data;
 
-  const { main: details, icon } = weather[0];
+  const { description, icon } = weather[0];
   const formattedLocalTime = formatToLocalTime(dt, timezone);
 
   return {
@@ -53,7 +60,7 @@ const formatCurrent = data => {
     sunrise: formatToLocalTime(sunrise, timezone, "hh:mm a"),
     sunset: formatToLocalTime(sunset, timezone, "hh:mm a"),
     speed,
-    details,
+    description,
     icon: iconUrlFromCode(icon),
     formattedLocalTime,
     dt,
