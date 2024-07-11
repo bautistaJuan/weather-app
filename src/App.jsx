@@ -8,23 +8,37 @@ import TopButtons from "./components/TopButtons";
 
 export default function App() {
   const [query, setQuery] = useState({ q: "buenos aires" });
-  const [units, setUnits] = useState("metrics");
+  const [units, setUnits] = useState("metric");
   const [weather, setWeather] = useState(null);
-
-  const getWeather = async () => {
-    await getFormattedWeatherData({ ...query, units }).then(data => {
-      setWeather(data);
-    });
-  };
 
   useEffect(() => {
     getWeather();
   }, [query, units]);
+
+  const getWeather = async () => {
+    await getFormattedWeatherData({ ...query, units }).then(data => {
+      console.log(data);
+      setWeather(data);
+    });
+  };
+
+  // console.log(weather)
+
+  const changeBgDynamic = () => {
+    if (!weather) return "from-black to-gray-800";
+
+    const threshold = units === "metric" ? 25 : 60;
+    if (weather.temp <= threshold) return "from-blue-500 to-blue-400";
+    return "from-orange-400 to-yellow-600";
+  };
+
   return (
     <>
-      <div className="mx-auto max-w-screen-lg text-white mt-4 py-6 px-32 bg-gradient-to-br shadow-xl shadow-gray-400 from-cyan-600 to-blue-700">
+      <div
+        className={` mx-auto  w-[100%] min-h-screen text-white mt-0 py-6 px-32 bg-gradient-to-br shadow-xl shadow-gray-400 ${changeBgDynamic()}`}
+      >
         <TopButtons setQuery={setQuery} />
-        <Inputs />
+        <Inputs setQuery={setQuery} setUnits={setUnits} />
         {weather && (
           <>
             <TimeAndLocation weather={weather} />

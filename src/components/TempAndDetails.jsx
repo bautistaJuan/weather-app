@@ -78,7 +78,7 @@ export default function TempAndDetails({
                 key={id}
                 className="flex font-light text-sm items-center justify-center"
               >
-                <Icon size={18} className="mr-1" />
+                <Icon size={20} className="mr-1" />
                 {name}: <span className="font-medium ml-1">{value}</span>
               </div>
             );
@@ -96,7 +96,7 @@ export default function TempAndDetails({
 
       <div className="flex flex-row items-center justify-between py-3">
         <img src={icon} alt="Weather Icon" className="w-20" />
-        <p className="text-5xl">{`${temp}°`}</p>
+        <p className="text-5xl">{`${temp.toFixed()}°`}</p>
         <ItemsArea />
       </div>
       <div className="flex flex-row items-center justify-center space-x-10 text-sm py-3">

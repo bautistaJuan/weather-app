@@ -13,7 +13,7 @@ export const Forecast = ({ title, data }) => {
           <div key={i} className=" flex flex-col items-center justify-center">
             <p className="font-light text-sm">{v.title}</p>
             <img src={v.icon} alt="weather icon" className=" w-12 my-1" />
-            <p className=" font-medium">{v.temp}°</p>
+            <p className=" font-medium">{v.temp.toFixed()}°</p>
           </div>
         ))}
       </div>
