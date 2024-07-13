@@ -8,7 +8,6 @@ import { GiSunset } from "react-icons/gi";
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
 
 export default function TempAndDetails({
-  // eslint-disable-next-line react/prop-types
   weather: {
     details,
     icon,
@@ -59,19 +58,19 @@ export default function TempAndDetails({
       id: 3,
       name: "Máxima",
       Icon: MdKeyboardArrowUp,
-      value: temp_max,
+      value: `${temp_max.toFixed()}°`,
     },
     {
       id: 4,
       name: "Minima",
       Icon: MdKeyboardArrowDown,
-      value: temp_min,
+      value: `${temp_min.toFixed()}°`,
     },
   ];
   const ItemsArea = () => {
     return (
       <>
-        <div className="flex flex-col space-y-3 items-start">
+        <div className="flex flex-col space-y-3 items-start ">
           {verticalItems.map(({ Icon, name, id, value }) => {
             return (
               <div
@@ -94,16 +93,19 @@ export default function TempAndDetails({
         <p>{details} </p>
       </div>
 
-      <div className="flex flex-row items-center justify-between py-3">
+      <div className="flex flex-row  items-center justify-center gap-3  py-3 flex-wrap">
         <img src={icon} alt="Weather Icon" className="w-20" />
         <p className="text-5xl">{`${temp.toFixed()}°`}</p>
         <ItemsArea />
       </div>
-      <div className="flex flex-row items-center justify-center space-x-10 text-sm py-3">
+      <div className="flex flex-row items-center justify-center sm:space-x-10 text-sm w-[100%]">
         {horizontalItems.map(({ Icon, name, id, value }) => (
-          <div key={id} className="flex flex-row items-center">
+          <div
+            key={id}
+            className="flex flex-col items-center justify-center w-[100px] text-center py-2"
+          >
             <Icon size={30} />
-            {name}:<span className="font-light ml-1">{value}</span>
+            {name}:<span className="font-light ml-1 w-[100%]">{value}</span>
           </div>
         ))}
       </div>

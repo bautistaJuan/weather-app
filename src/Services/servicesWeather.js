@@ -96,20 +96,23 @@ const formatForecastWather = (secs, offset, data) => {
 
 // Esta es la funcion que se encarga de pasar toda la data formateada(embellesido)
 const getFormattedWeatherData = async searchParams => {
-  const formateddCurrenWeather = await getWeatherData(
-    "weather",
-    searchParams
-  ).then(formatCurrent);
+  try {
+    const formateddCurrenWeather = await getWeatherData(
+      "weather",
+      searchParams
+    ).then(formatCurrent);
+    const { dt, lat, lon, timezone } = formateddCurrenWeather;
 
-  const { dt, lat, lon, timezone } = formateddCurrenWeather;
-
-  const formattedForecastWeather = await getWeatherData("forecast", {
-    lat,
-    lon,
-    units: searchParams.units,
-  }).then(d => formatForecastWather(dt, timezone, d.list)); //Para un endpoint diferente.
-  // Retorna lo que devuelve la función formatCurrent
-  return { ...formateddCurrenWeather, ...formattedForecastWeather };
+    const formattedForecastWeather = await getWeatherData("forecast", {
+      lat,
+      lon,
+      units: searchParams.units,
+    }).then(d => formatForecastWather(dt, timezone, d.list)); //Para un endpoint diferente.
+    // Retorna lo que devuelve la función formatCurrent
+    return { ...formateddCurrenWeather, ...formattedForecastWeather };
+  } catch (error) {
+    alert("No encontramos coinsidecias ");
+  }
 };
 
 export default getFormattedWeatherData;

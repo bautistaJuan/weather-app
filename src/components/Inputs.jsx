@@ -1,13 +1,27 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { BiSearch, BiCurrentLocation } from "react-icons/bi";
-
+import countries from "../countries.json";
 // eslint-disable-next-line no-unused-vars
 export default function Inputs({ setQuery, setUnits }) {
   const [city, setCity] = useState("");
   const handleClickInput = () => {
     if (city !== "") setQuery({ q: city });
-    console.log(city);
+  };
+  const cc = () => {
+    const countriesToObject = JSON.parse(countries);
+    console.log(countriesToObject);
+  };
+
+  // cc();
+  const handleLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        setQuery({ lat: latitude, lon: longitude });
+      });
+      return;
+    }
   };
   return (
     <div>
@@ -29,6 +43,7 @@ export default function Inputs({ setQuery, setUnits }) {
           <BiCurrentLocation
             size={40}
             className="cursor-pointer transition ease-out hover:scale-125"
+            onClick={handleLocation}
           />
         </div>
       </div>

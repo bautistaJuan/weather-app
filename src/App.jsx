@@ -17,7 +17,6 @@ export default function App() {
 
   const getWeather = async () => {
     await getFormattedWeatherData({ ...query, units }).then(data => {
-      console.log(data);
       setWeather(data);
     });
   };
@@ -35,7 +34,7 @@ export default function App() {
   return (
     <>
       <div
-        className={` mx-auto  w-[100%] min-h-screen text-white mt-0 py-6 px-32 bg-gradient-to-br shadow-xl shadow-gray-400 ${changeBgDynamic()}`}
+        className={` mx-auto  w-[100%] min-h-screen text-white p-2 mt-0 bg-gradient-to-br shadow-xl shadow-gray-400 ${changeBgDynamic()}`}
       >
         <TopButtons setQuery={setQuery} />
         <Inputs setQuery={setQuery} setUnits={setUnits} />

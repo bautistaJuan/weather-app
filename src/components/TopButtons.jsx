@@ -29,8 +29,7 @@ export default function TopButtons({ setQuery }) {
   ];
 
   return (
-    <div className=" flex items-center justify-around my-6 ">
-      <input type="select" />
+    <div className="flex items-center justify-around my-6 flex-wrap ">
       {cities.map(c => (
         <button
           key={c.id}
