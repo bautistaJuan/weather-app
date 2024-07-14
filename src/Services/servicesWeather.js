@@ -111,7 +111,7 @@ const getFormattedWeatherData = async searchParams => {
     // Retorna lo que devuelve la función formatCurrent
     return { ...formateddCurrenWeather, ...formattedForecastWeather };
   } catch (error) {
-    alert("No encontramos coinsidecias ");
+    console.log(error);
   }
 };
 

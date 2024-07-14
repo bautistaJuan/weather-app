@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 export const Forecast = ({ title, data }) => {
-  console.log(title, data);
-
   return (
     <div className="p-4">
       <div className="flex items-center justify-start mt-6">

@@ -1,19 +1,24 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { BiSearch, BiCurrentLocation } from "react-icons/bi";
-import countries from "../countries.json";
+import countries from "../countries";
 // eslint-disable-next-line no-unused-vars
 export default function Inputs({ setQuery, setUnits }) {
   const [city, setCity] = useState("");
   const handleClickInput = () => {
-    if (city !== "") setQuery({ q: city });
-  };
-  const cc = () => {
-    const countriesToObject = JSON.parse(countries);
-    console.log(countriesToObject);
+    if (!city) return;
+    const country = countries.find(
+      c => c.nombre.toUpperCase() === city.toUpperCase()
+    );
+    if (country) {
+      const cityNameAndIso = `${country.nombre}, ${country.codigo} `;
+      setQuery({ q: cityNameAndIso });
+      setUnits("metric");
+    } else {
+      alert("Proba de nuevo o busca otro pais");
+    }
   };
 
-  // cc();
   const handleLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -26,10 +31,10 @@ export default function Inputs({ setQuery, setUnits }) {
   return (
     <div>
       <div className="flex flex-row justify-center my-6">
-        <div className="flex items-center w-3/4 justify-center space-x-4 ">
+        <form className="flex items-center w-3/4 justify-center space-x-4 p-3">
           <input
             value={city}
-            onChange={e => setCity(e.currentTarget.value)}
+            onChange={e => setCity(e.target.value)}
             placeholder="buscar por ciudad o país"
             type="text"
             autoFocus={true}
@@ -45,7 +50,7 @@ export default function Inputs({ setQuery, setUnits }) {
             className="cursor-pointer transition ease-out hover:scale-125"
             onClick={handleLocation}
           />
-        </div>
+        </form>
       </div>
     </div>
   );

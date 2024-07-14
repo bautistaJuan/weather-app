@@ -11,17 +11,15 @@ export default function App() {
   const [units, setUnits] = useState("metric");
   const [weather, setWeather] = useState(null);
 
-  useEffect(() => {
-    getWeather();
-  }, [query, units]);
-
   const getWeather = async () => {
     await getFormattedWeatherData({ ...query, units }).then(data => {
       setWeather(data);
     });
   };
 
-  // console.log(weather)
+  useEffect(() => {
+    getWeather();
+  }, [query, units]);
 
   const changeBgDynamic = () => {
     if (!weather) return "from-black to-gray-800";
